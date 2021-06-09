@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Ticketing_System_TILE03.Models.Domain.Contract>
+@{
+    //Layout
+    string bootstrapButton = "btn btn-light shadow-sm rounded";
+    string bootstrapRow = "row";
+    string bootstrapColumn = "col-md";
+
+    //
+    String info = ((String)ViewData["Title"]).ToLower();
+}
+
+@if (Model.Count() == 0 && ((String)ViewData["Title"] == "Overzicht contracten" || (String)ViewData["Title"] == "Lopende contracten"))
+{
+    <div class="alert alert-info actemium-info" role="alert">
+        Geen lopende contracten gevonden. U kan een <a asp-controller="Contract" asp-action="ContractAfsluiten" style="color: #004289">nieuw contract afsluiten</a>.
+    </div>
+}
+else if (Model.Count() == 0)
+{
+<div class="alert alert-info actemium-info" role="alert">
+    Geen @info gevonden.
+</div>
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr class="my-2">
+
+<form>
+    <div class="form-inline my-2">
+        <div class="form-group">
+            <label for="nullableStatus"></label>
+            <select id="nullableStatus" style="color: #004289;" name="nullableStatus" asp-items="@(ViewData["Statussen"] as SelectList)" class="form-control">
+                <option value="">-- kies een status --</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary ml-1">filter</button>
+        <a asp-controller="Contract" asp-action="ContractAfsluiten" class="btn btn-secondary text-right ml-5">contract afsluiten</a>
+    </div>
+</form>
+
+
+<table class="table table-striped table-bordered table-responsive-sm">
+
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Startdatum
+            </th>
+            <th>
+                Einddatum
+            </th>
+            <th>
+                Actie
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ContractId
+                </td>
+                <td>
+                    <a asp-controller="Contract" asp-action="Details" asp-route-id="@item.ContractId">@item.Type.Naam</a>
+                    @if (item.VervaltBinnenkort)
+                    {
+                        <span span class="badge badge-danger">vervalt</span>
+                    }
+
+                </td>
+                <td>
+                    @item.StartDatum.ToLongDateString()
+                </td>
+                <td>
+                    @item.EindDatum.ToLongDateString()
+                </td>
+                <td>
+                    <a asp-controller="Contract" asp-action="Details" asp-route-id="@item.ContractId">Detail</a> |
+                    <a asp-controller="Contract" asp-action="Delete" asp-route-id="@item.ContractId">Stopzetten</a>
+                </td>
+            </tr>
+        }
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" asp-controller="Dashboard">Terug naar dashboard</a>
+</div>

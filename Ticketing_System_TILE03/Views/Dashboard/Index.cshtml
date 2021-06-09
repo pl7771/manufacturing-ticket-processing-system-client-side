@@ -1,0 +1,154 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Ticketing_System_TILE03.Models.Domain
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+    @{
+        ViewData["Title"] = "Dashboard";
+
+        //Layout
+        string bootstrapButton = "btn btn-lg btn-light btn-block shadow-sm rounded py-4 actemium-button";
+        string bootstrapRow = "row m-4";
+        string bootstrapColumn = "col-md";
+
+        //Rol
+        var userRole = ViewData["userRole"];
+        bool isClient = (bool) ViewData[Roles.Client.ToString()];
+        bool isTechnician = (bool)ViewData[Roles.Technician.ToString()];
+        bool isSupportManager = (bool)ViewData[Roles.SupportManager.ToString()];
+        bool isAdministrator = (bool)ViewData[Roles.Administrator.ToString()];
+    }
+    <div class="container-fluid">
+        @if ((bool)ViewData["contractExpires"])
+        {
+            <div class="alert alert-info actemium-info" role="alert">
+                Je contract vervalt binnen een maand. Beheer je contracten om je contract te verlengen.
+            </div>
+        }
+        <div class="jumbotron-fluid">
+            <h1 class="display-4">@ViewData["Title"]</h1>
+            <hr class="my-4">
+        </div>
+
+        <div class="@bootstrapRow">
+
+            @if (isClient) //Beheer contracten
+            {
+                <div class="@bootstrapColumn">
+                    <a asp-action="Index" asp-controller="Contract" class="@bootstrapButton">
+                        Beheer contracten
+                    </a>
+                </div>
+            }
+
+            @if (isSupportManager) //Beheer contractTypes
+            {
+                <div class="@bootstrapColumn">
+                    <a asp-action="Index" asp-controller="ContractType" class="@bootstrapButton">
+                        Beheer contractTypes
+                    </a>
+                </div>
+            }
+
+            @if (isClient || isTechnician) //Beheer knowledge base
+            {
+                <div class="@bootstrapColumn">
+                    <a asp-action="KnowledgeBase" asp-controller="Dashboard" class="@bootstrapButton">
+                        Raadpleeg knowledge base
+                    </a>
+                </div>
+            }
+
+            @if (isClient || isSupportManager) //Nieuw ticket
+            {
+                <div class="@bootstrapColumn">
+                    <a asp-action="Create" asp-controller="Ticket" class="@bootstrapButton">
+                        Ticket aanmaken
+                    </a>
+                </div>
+
+            }
+        </div>
+    </div>
+
+    @if (isClient || isTechnician || isSupportManager) //Tickets
+    {
+        <div class="ml-4">
+            <h2>Tickets <span class="badge badge-danger" style="background-color: rgb(0, 66, 137);">@ViewData["changes"]</span></h2>
+            <div class="font-italic">De tickets zijn het laatst bekeken op @ViewData["LastSession"].ToString().</div>
+            <hr class="my-3">
+        </div>
+
+        <div class="@bootstrapRow">
+
+            <!--Openstaande tickets-->
+            <div class="@bootstrapColumn">
+                <a asp-action="Index" asp-controller="Ticket" class="@bootstrapButton">
+                    Openstaande tickets
+                </a>
+            </div>
+
+            <div class="@bootstrapColumn">
+                <!--Afgehandelde tickets-->
+                <a asp-action="Index" asp-controller="Ticket" asp-route-status="@Status.AFGEHANDELD" method="post" class="@bootstrapButton"> <!--kan geen enum doorgeven-->
+                    Afgehandelde tickets
+                </a>
+            </div>
+
+            <div class="@bootstrapColumn">
+                <!--Statistieken-->
+                <a asp-action="Index" asp-controller="Statistic" class="@bootstrapButton">
+                    Statistieken
+                </a>
+            </div>
+
+        </div>
+    }
+
+    @if (isAdministrator) //Administrator
+    {
+        <div class="@bootstrapRow">
+            <!--klanten-->
+            <div class="@bootstrapColumn">
+                <a asp-action="" asp-controller="" class="@bootstrapButton">
+                    Beheer klanten
+                </a>
+            </div>
+            <div class="@bootstrapColumn">
+                <!--werknemers-->
+                <a asp-action="" asp-controller="" class="@bootstrapButton">
+                    Beheer werknemers
+                </a>
+            </div>
+        </div>
+    }
+
+    <!-- #region INFO -->
+    <!--
+        Contract vervalt binnen 1 maand
+
+        Contracten beheren: klant
+        Raadplegen knowledge base: klant, technieker
+        knowledge base beheren: support manager
+        Nieuw ticket aanmaken: klant, support manager (in opdracht klant)
+
+        --Openstaande tickets-- aantal wijzigingen tegenover laatste sessie
+        (Enkel van klant): klant
+        (toegewezen aan technieker): technieker
+        (alle): support manager
+
+        --Afgehandelde tickets-- aantal wijzigingen tegenover laatste sessie
+        (Enkel van klant): klant
+        (toegewezen aan technieker): technieker
+        (alle): support manager
+
+        Statistieken: klant, technieker, support manager
+
+        Klanten beheren: administrator
+        Werknemers beheren: administrator
+
+        Afmelden: all
+
+
+    -->
+    <!-- #endregion -->

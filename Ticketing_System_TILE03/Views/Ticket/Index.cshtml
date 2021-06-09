@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Ticketing_System_TILE03.Models.Domain.Ticket>
+
+@{  }
+<h2>@ViewData["Title"]</h2>
+<hr class="my-2">
+
+<!-- Header van de tabel, enkel de variabelen uit de use case (nr, titel, status) zijn te zien op het overzicht
+    Nog links voorzien voor andere methodes in de controller (details, create, ...)-->
+
+<form>
+    <div class="form-inline my-2">
+        <div class="form-group">
+            <label for="statusId"></label>
+            <select id="status" style="color: #004289;" name="status" asp-items="@(ViewData["Statussen"] as SelectList)" class="form-control">
+                <option value="">-- Openstaande tickets --</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary ml-1">filter</button>
+        <!-- VOlgende button voor aanmaken nieuw ticket-->
+        <a asp-controller="Ticket" asp-action="Create" class="btn btn-secondary text-right ml-5">nieuw ticket</a>
+    </div>
+</form>
+
+
+<table class="table table-striped table-bordered table-responsive-sm">
+
+    <thead>
+        <tr>
+            <th>
+                Ticket Nummer
+            </th>
+            <th>
+                Titel
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Contract Type
+            </th>
+            <th>
+                Actie
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.TicketId
+            </td>
+            <td>
+                @item.Titel
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.Contract.Type.Naam
+            </td>
+            <td>
+                <a asp-controller="Ticket" asp-action="Details" asp-route-id="@item.TicketId">Detail</a>
+                <!--  Indien klan zijn niet relevante info kan aanapssen-->
+
+                @if (item.KanWijzigen())
+                {
+                    <a asp-controller="Ticket" asp-action="Edit" asp-route-id="@item.TicketId">Edit</a>
+                }
+                <a asp-controller="Ticket" asp-action="Delete" asp-route-id="@item.TicketId">Delete</a>
+            </td>
+        </tr>
+}
+
+    </tbody>
+
+</table>

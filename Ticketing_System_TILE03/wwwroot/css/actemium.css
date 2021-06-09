@@ -1,0 +1,57 @@
+﻿/*Bjarne*/
+#logo-actemium {
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 8px 16px;
+}
+
+
+
+#navbar-actemium {
+   background-color: white;
+}
+
+.actemium-brand {
+    white-space: normal !important;
+    text-align: center !important;
+    word-break: break-all !important;
+}
+
+
+.actemium-navbar-text {
+    color: #004289 !important;
+}
+
+    .actemium-navbar-text:hover {
+        color: rgb(175, 202, 11) !important;
+    }
+
+#actemium-footer {
+    background-color: #004289;
+    color: white;
+}
+
+.actemium-button:hover {
+    /* background-color: #AFCA0B;*/
+    background-color: #B2C663;
+    background-color: #D2EDFF;
+    color: #004289;
+}
+
+@media (max-width: 1750px) {
+    #logo-actemium {
+        position: unset !important;
+        display: block !important;
+    }
+
+    .actemium-brand {
+        display: none !important;
+    }
+}
+
+.actemium-info {
+    background-color: #D2EDFF;
+    color: #004289;
+}

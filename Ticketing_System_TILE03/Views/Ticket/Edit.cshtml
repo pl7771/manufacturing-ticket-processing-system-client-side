@@ -1,0 +1,99 @@
+﻿@model Ticketing_System_TILE03.Models.ViewModels.TicketEditViewModel
+@using Microsoft.AspNetCore.Identity
+@using Ticketing_System_TILE03.Models.Domain
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{ ViewData["Title"] = "Edit Ticket";
+
+
+    var userRole = ViewData["userRole"];
+    bool isClient = (bool)ViewData[Roles.Client.ToString()]; }
+
+<h1>@ViewData["Title"]</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Omschrijving" class="control-label"></label>
+                <input type="text" asp-for="Omschrijving" class="form-control" />
+                <span asp-validation-for="Omschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opmerkingen" class="control-label"></label>
+                <input asp-for="Opmerkingen" class="form-control" />
+                <span asp-validation-for="Opmerkingen" class="text-danger"></span>
+            </div>
+
+            @{ if (!isClient)
+                {
+
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <select style="color: #004289;" asp-for="Status" asp-items="@(ViewData["Statussen"] as SelectList)" class="form-control">
+            <option value="">@Model.Status</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div> }
+
+                else
+                {
+
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <select disabled style="color: #004289;" asp-for="Status" asp-items="@(ViewData["Statussen"] as SelectList)" class="form-control">
+            <option value="">@Model.Status</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div> } }
+
+
+
+            <hr />
+
+            <div>
+                @if (Model.Bijlage == null)
+                {
+    <p style="color: red;">Ticket bevat momenteel geen bijlage</p>}
+
+                <div class="form-group">
+                    <label asp-for="ImageDescription" class="control-label"></label>
+                    <input asp-for="ImageDescription" class="form-control" />
+                    <span asp-validation-for="ImageDescription" class="text-danger"></span>
+                </div>
+
+                @if (Model.Bijlage != null)
+                {
+    <div class="mt-2 mb-2">
+
+        <a class="btn btn-primary" asp-action="DownloadFile" asp-controller="Ticket" asp-route-id="@Model.TicketId"> Download @Model.Bijlage.FileType-file </a>
+        <p class="mt-4">Vervang door een nieuwe bijlage, oude wordt verwijderd.</p>
+    </div>}
+
+                <div>
+                    <input asp-for="MyFile" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary mt-3" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

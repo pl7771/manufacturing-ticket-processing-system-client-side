@@ -1,0 +1,47 @@
+﻿@model Ticketing_System_TILE03.Models.ViewModels.ContractViewModel
+
+@{
+    ViewData["Title"] = "Contract afsluiten";
+    string bootstrapButton = "btn btn-light shadow-sm rounded";
+}
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ContractAfsluiten" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Voor hoeveel dagen wenst u een contract af te sluiten?</label>
+                <select style="color: #004289;" asp-for="Days" asp-items="@(ViewData["Periods"] as SelectList)" class="form-control">
+                    <option value="">-- Selecteer dagen --</option>
+                </select>
+                <span asp-validation-for="Days" class="text-danger"></span>
+            </div>
+            @if (ViewData["ContractTypes"] != null)
+            {
+                <div class="form-group">
+                    <label>Kies een contract:</label>
+                    <select style="color: #004289;" asp-for="Type" asp-items="@(ViewData["ContractTypes"] as SelectList)" class="form-control">
+                        <option value="">-- Selecteer contract --</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="StartDatum" class="control-label"></label>
+                <input asp-for="StartDatum" class="form-control" />
+                <span asp-validation-for="StartDatum" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3 mb-3">
+                <input type="submit" value="Contract afsluiten" class="btn btn-primary shadow-sm rounded" style="width: 100%" />
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index" class="@bootstrapButton" style="width: 100%">Terug naar overzicht</a>
+        </div>
+    </div>
+</div>
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

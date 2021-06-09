@@ -1,0 +1,62 @@
+﻿<html>
+<head>
+
+    <script src="~/scripts/Chart.min.js"></script>
+    <script src="~/scripts/jquery-3.6.0.min.js"></script>
+    <style>
+        #chart_container {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ddd;
+            padding: 1px;
+            border-radius: 4px;
+        }
+        .navbar-nav > .active {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center p-3 shadow-sm mt-4 mb-4 rounded">
+        <ul class="navbar-nav text-primary">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index" asp-controller="Statistic">Status Tickets</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-action="TicketType" asp-controller="Statistic">Prioriteit Tickets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ContractType" asp-controller="Statistic">Status Contracten</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="AantalAfgeslotenTicketPerMaand" asp-controller="Statistic">Aantal tickets afgesloten per maand</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="AantalAangemaakteTicketsPerMaand" asp-controller="Statistic">Aantal tickets aangemaakt per maand</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" asp-action="ShowAverages" asp-controller="Statistic">Gemiddelden</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h2 >Gemiddelden</h2>
+    <div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Gemiddeld aantal wijzigingen per ticket</th>
+                    <td>@ViewBag.AVGWIJZ.ToString("0.0")</td>
+                </tr>
+                <tr>
+                    <th scope="row">Gemiddeld aantal dagen per ticket</th>
+                    <td>@ViewBag.AANTDAGEN</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

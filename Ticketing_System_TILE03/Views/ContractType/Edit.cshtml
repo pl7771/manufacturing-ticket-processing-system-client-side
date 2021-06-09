@@ -1,0 +1,73 @@
+﻿@model Ticketing_System_TILE03.Models.ViewModels.ContractTypeEditViewModel;
+
+@{ ViewData["Title"] = (bool)ViewData["IsEdit"] ? "Wijzig contract" : "Creëer contract"; }
+
+
+<h1>@ViewData["Title"]</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <input type="text" value=@Model.Naam class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Naam" class="control-label"></label>
+                <input asp-for="Naam" class="form-control" />
+                <span asp-validation-for="Naam" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ManierAanmakenTicket"></label>
+                <select asp-for="ManierAanmakenTicket" style=" color: #004289;" asp-items="@(ViewData["ManierAanmakenTicket"] as SelectList)" class="form-control">
+                    <option value="">@Model.ManierAanmakenTicket</option>
+                </select>
+                <span asp-validation-for="ManierAanmakenTicket" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GedekteTijdstippen"></label>
+                <select asp-for="GedekteTijdstippen" style="color: #004289;" asp-items="@(ViewData["GedekteTijdstippen"] as SelectList)" class="form-control">
+                    <option value="">@Model.GedekteTijdstippen</option>
+                </select>
+                <span asp-validation-for="GedekteTijdstippen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximaleAfhandeltijd" class="control-label"></label>
+                <input asp-for="MaximaleAfhandeltijd" class="form-control" />
+                <span asp-validation-for="MaximaleAfhandeltijd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimaleDoorlooptijd" class="control-label"></label>
+                <input asp-for="MinimaleDoorlooptijd" class="form-control" />
+                <span asp-validation-for="MinimaleDoorlooptijd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prijs" class="control-label"></label>
+                <input asp-for="Prijs" class="form-control" />
+                <span asp-validation-for="Prijs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" style="color: #004289;" asp-items="@(ViewData["Statussen"] as SelectList)" class="form-control">
+                    <option value="">@Model.Status</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Terug naar overzicht</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

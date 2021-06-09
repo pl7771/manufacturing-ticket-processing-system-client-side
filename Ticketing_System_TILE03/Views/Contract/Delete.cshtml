@@ -1,0 +1,16 @@
+﻿@model Ticketing_System_TILE03.Models.Domain.Contract
+
+@{
+
+}
+
+<h1>Stopzetten</h1>
+
+<h3>Ben je zeker dat je contract '@ViewData["Naam"]' wilt stopzetten?</h3>
+<div>
+    <hr />
+    <form asp-action="Delete">
+        <input type="submit" value="Stopzetten" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug naar lijst</a>
+    </form>
+</div>

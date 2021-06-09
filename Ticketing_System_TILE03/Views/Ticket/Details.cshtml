@@ -1,0 +1,110 @@
+﻿@model Ticketing_System_TILE03.Models.Domain.Ticket
+
+@{ ViewData["Title"] = "Details";
+    string assignedTechnician = (@Model.Employee != null) ? @Model.Employee.GetEmployeeName() : "Geen toegewezen technieker";
+    string assignedCompany = (@Model.Company != null) ? @Model.Company.Name : "Geen toegewezen bedrijf";
+    string isGewijzigd = (@Model.IsGewijzigd == true) ? "Ja" : "Nee";
+    string opmerkingen = (string.IsNullOrEmpty(@Model.Opmerkingen)) ? "Geen opmerkingen" : @Model.Opmerkingen; }
+
+<h1>Details</h1>
+
+<div>
+    <h4>Ticket @Model.Titel </h4>
+    <hr />
+    <dl class="row my-3">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Omschrijving)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Omschrijving)
+        </dd>
+        <dt class="col-sm-2">
+            Opmerkingen
+        </dt>
+        <dd class="col-sm-10">
+            @{ if (Model.Opmerkingen != null)
+                {
+                    var zinArray = Model.Opmerkingen.Split("|a|");
+                    foreach (var zin in zinArray)
+                    {
+    <p>@zin</p> }
+} }
+        </dd>
+        <dt class="col-sm-2">
+            Gewijzigd
+        </dt>
+        <dd class="col-sm-10">
+            @isGewijzigd
+        </dd>
+        <dt class="col-sm-2">
+            Aangemaakt
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatumAangemaakt)
+        </dd>
+        @if (Model.DatumAfgesloten.HasValue)
+        {
+<dt class="col-sm-2">
+    Afgesloten
+</dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DatumAfgesloten)
+                </dd>}
+        <dt class="col-sm-2">
+            Contract
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.Type.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            Bedrijf
+        </dt>
+        <dd class="col-sm-10">
+            @assignedCompany
+        </dd>
+        <dt class="col-sm-2">
+            Technieker
+        </dt>
+        <dd class="col-sm-10">
+            @assignedTechnician
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            Wijzigingen
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AantalWijzigingen)
+        </dd>
+        @if (Model.Bijlage == null)
+        {
+<dt class="col-sm-2">
+    Bijlage detail
+</dt>
+                <dd class="col-sm-10">
+                    Ticket bevat momenteel geen bijlage
+                </dd> }
+                            else
+                            {
+                <dt class="col-sm-2">
+                    Bijlage detail
+                </dt>
+                                <dd class="col-sm-10">
+                                    <p>@Html.DisplayFor(model => model.ImageDescription)</p>
+                                    <a class="btn btn-outline-primary" asp-action="DownloadFile" asp-controller="Ticket" asp-route-id="@Model.TicketId"> Download @Model.Bijlage.FileType-file </a>
+                                </dd>}
+        <dt class="col-sm-2" style="margin-top: ">
+            <a asp-action="Index">Back to List</a>
+        </dt>
+    </dl>
+</div>

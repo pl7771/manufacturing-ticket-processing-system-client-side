@@ -1,0 +1,18 @@
+﻿@model Ticketing_System_TILE03.Models.Domain.ContractType
+
+@{
+
+}
+
+<h1>Verwijder</h1>
+
+<h3>Ben je zeker dat je dit contract wil verwijderen?</h3>
+<div>
+    <h4>contract @ViewData["Naam"]</h4>
+    <hr />
+
+    <form asp-action="Delete">
+        <input type="submit" value="Verwijder" class="btn btn-danger" /> |
+        <a asp-action="Index">Terug naar overzicht</a>
+    </form>
+</div>

@@ -1,0 +1,99 @@
+﻿<html>
+<head>
+
+    <script src="~/scripts/Chart.min.js"></script>
+    <script src="~/scripts/jquery-3.6.0.min.js"></script>
+    <style>
+        #chart_container {
+            width: 100%;
+            height: 500px;
+
+            padding: 1px;
+            border-radius: 4px;
+        }
+        .navbar-nav > .active {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-center p-3 shadow-sm mt-4 mb-4 rounded">
+        <ul class="navbar-nav text-primary">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index" asp-controller="Statistic">Status Tickets</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-action="TicketType" asp-controller="Statistic">Prioriteit Tickets</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" asp-action="ContractType" asp-controller="Statistic">Status Contracten</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="AantalAfgeslotenTicketPerMaand" asp-controller="Statistic">Aantal tickets afgesloten per maand</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="AantalAangemaakteTicketsPerMaand" asp-controller="Statistic">Aantal tickets aangemaakt per maand</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ShowAverages" asp-controller="Statistic">Gemiddelden</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h2>Aantal afgesloten contracten per type</h2>
+    <div>
+        <div id="chart_container">
+            <canvas id="bar_chart"></canvas>
+        </div>
+    </div>
+    <script>
+        var repArray = @Html.Raw(Json.Serialize(ViewBag.REP));
+        var types = @Html.Raw(Json.Serialize(ViewBag.CONTRACTTYPES));
+
+        //array voor de labels
+        var Statuslabels = [];
+
+        //Array opvullen met statussen
+        for (let type of types) {
+            Statuslabels.push(type);
+        }
+
+        //array met kleuren
+        //Actemium kleuren "#c6d200", "#004087", "#668cb7", "#ccd9e7"
+        var KleurenArray = ["#c6d200", "#004087", "#668cb7", "#ccd9e7", "blue", "yellow", "green", "purple", "black", "red"]
+
+        //array voor labelkleuren
+        var StatusKleurenArray = [];
+
+        //opvullen van array labelkleuren
+        for (let i = 0; i <= Statuslabels.length; i++) {
+            StatusKleurenArray[i] = KleurenArray[i];
+        }
+
+
+        var ctx = $("#bar_chart");
+        var barchart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: Statuslabels,
+                datasets: [{
+                    label: "Type van contract",
+                    data: repArray,
+                    backgroundColor: StatusKleurenArray,
+                    borderColor: StatusKleurenArray,
+                    borderWidth: 2,
+                    hoverBorderWidth: 8
+                }]
+            },
+
+            options: {
+                maintainAspectRatio: false,
+                legend: {display: true},
+            },
+        });
+    </script>
+
+</body>
+</html>

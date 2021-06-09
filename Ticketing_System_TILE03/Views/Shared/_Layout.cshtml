@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="nl-be">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ticketing_System_TILE03</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/actemium.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="https://www.actemium.be/wp-content/themes/actemium/favicon.ico">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" id="navbar-actemium">
+            <div class="container">
+                <a asp-area="" asp-controller="Dashboard" asp-action="Index">
+                    <img src="https://www.actemium.be/wp-content/themes/actemium/dist/img/logo-actemium.svg" id="logo-actemium" alt="">
+                </a>
+                @*<a class="navbar-brand actemium-navbar-text" asp-area="" asp-controller="Home" asp-action="Index" style="white-space: nowrap">Ticketing_System_TILE03</a>*@
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" style="background-color: rgb(0, 66, 137) !important; border-radius: 5px;"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link actemium-navbar-text" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link actemium-navbar-text" asp-area="" asp-controller="Ticket" asp-action="Index">Overzicht Tickets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link actemium-navbar-text" asp-area="" asp-controller="Statistic" asp-action="Index">Statistieken</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        @if (TempData["nochanges"] != null)
+        {
+            <div class="alert alert-info">@TempData["nochanges"]</div>
+        }
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success">@TempData["message"]</div>
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-warning">@TempData["error"]</div>
+        }
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer" id="actemium-footer">
+        <div class="container">
+            &copy; 2021 - Actemium - <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color: rgb(175, 202, 11);">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
